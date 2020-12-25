@@ -1,3 +1,5 @@
+"""const and command list"""
+
 LIVES = 1
 
 HELP = {

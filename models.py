@@ -77,7 +77,7 @@ class Player:
                     return False
 
     def validate_allowed_attacks(self):
-        if self.allowed_attacks > 3 and self.allowed_attacks >= 0:
+        if self.allowed_attacks not in [1,2,3]:
             return False
 
 

@@ -3,8 +3,7 @@ from exceptions import GameOver, EnemyDown
 from models import Player, Enemy, Score
 import settings
 
-score_list = [0]
-name_list = []
+player_list = [0]
 
 
 
@@ -16,7 +15,7 @@ def play():
             names = input("Enter your name: ")	
             print()
             while True:
-                if Player.validate_names(names) == 0:
+                if Player.validate_names(names) is False:
                     print("Name already exists")
                     names = input("Enter your name: ")
                 else:
@@ -25,18 +24,22 @@ def play():
             enemy = Enemy(1, 1)
             while True:
                 try:
-                    player.allowed_attacks = int(input("Choose your hero: 1-Wizard, 2-Warrior, 3-Rogue "))
-                    if player.validate_allowed_attacks() == 0:
-                        print("The selected hero does not exist")
+                    while True:
                         player.allowed_attacks = int(input("Choose your hero: 1-Wizard, 2-Warrior, 3-Rogue "))
-                    else:
-                        player.attack(enemy)
+                        if player.validate_allowed_attacks() is False:
+                            print("The selected hero does not exist")
+                            continue
+                        else:
+                            player.attack(enemy)
+                            break
+                    while True:
                         player.allowed_attacks = int(input("Choose defense: 1-Wizard, 2-Warrior, 3-Rogue "))
-                    if player.validate_allowed_attacks() == 0:
-                        print("The selected hero does not exist")
-                        player.allowed_attacks = int(input("Choose defense: 1-Wizard, 2-Warrior, 3-Rogue "))
-                    else:
-                        player.defence(enemy)
+                        if player.validate_allowed_attacks() is False:
+                            print("The selected hero does not exist")
+                            continue
+                        else:
+                            player.defence(enemy)
+                            break
                 except EnemyDown:
                     next_lvl += 1
                     print("------------------------------------")
@@ -44,8 +47,7 @@ def play():
                     print("------------------------------------")
                     enemy = Enemy(enemy.level+next_lvl, enemy.lives+next_lvl)
                     player.score += 5
-                score_list.append(player.score)
-                name_list.append(player.name)
+                player_list.append(player)
         if command == "SHOW":
             with open("score.txt", "r") as file:
                 print(file.read())
@@ -61,7 +63,7 @@ if __name__ == '__main__':
     try:
         play()
     except GameOver:
-        GameOver.write_score(score_list[-1], name_list[-1])
+        GameOver.write_score(player_list[-1].score, player_list[-1].name)
     except KeyboardInterrupt:
         pass
     finally:

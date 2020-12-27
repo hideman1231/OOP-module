@@ -14,13 +14,10 @@ def play():
             next_lvl = 1
             names = input("Enter your name: ")	
             print()
-            while True:
-                if Player.validate_names(names) is False:
-                    print("Name already exists")
-                    names = input("Enter your name: ")
-                else:
-                    player = Player(names, settings.LIVES, 0, 0)
-                    break
+            while Player.validate_names(names) is False:
+                print("Name already exists")
+                names = input("Enter your name: ")
+            player = Player(names, settings.LIVES, 0, 0)
             enemy = Enemy(1, 1)
             while True:
                 try:

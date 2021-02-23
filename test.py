@@ -1,7 +1,7 @@
 from unittest import TestCase
-from unittest.mock import patch, Mock, mock_open
+from unittest.mock import patch, mock_open
 
-from models import Enemy, Player
+from models import Player
 
 
 class TestEnemy(TestCase):
@@ -14,9 +14,7 @@ class TestEnemy(TestCase):
 class TestPlayer(TestCase):
 
     def setUp(self):
-        self.enemy = Enemy(1, 1)
         self.player = Player('test', 1, 1, 1)
-        self.mock = Mock()
 
     def test_fight(self):
         self.assertEqual(self.player.fight(1, 1), 0)
